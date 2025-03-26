@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f4f4f4;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            margin-left: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2>To-Do List K24</h2>
+    <input type="text" id="taskInput" placeholder="Nhập công việc">
+    <button onclick="addTask()">Thêm</button>
+    <ul id="taskList">
+
+    </ul>
+
+    <script>
+        let todoList = JSON.parse(localStorage.getItem("listK24")) || [];
+
+        function addTask() {
+            let input = document.getElementById('taskInput')
+
+            if (input.value === '') {
+                alert("Vui lồng nhập lại công việc.")
+                return;
+            }
+
+            todoList.push({
+                list: input.value,
+            })
+
+            localStorage.setItem(`listK24`, JSON.stringify(todoList));
+            input.value = '';
+
+            printlist()
+
+        }
+
+        function printlist() {
+
+            let taskList = document.getElementById('taskList');
+
+            taskList.innerHTML = ''
+
+            todoList.forEach((element, index) => {
+                taskList.innerHTML += `
+                    <li>${element.list}<span><button onclick="edit(${index})">Sửa</button><button onclick="deleteTask(${index})">Xoá</button></span></li>
+                `
+            });
+        }
+
+        function edit(index) {
+            console.log('333');
+
+            let listNew = prompt("chỉnh sửa công việc", todoList[index].list)
+
+            if (listNew === '') {
+                alert("Vui lòng nhập lại công việc.")
+                return;
+            }
+
+            todoList[index].list = listNew;
+
+            localStorage.setItem(`listK24`, JSON.stringify(todoList));
+
+            printlist();
+        }
+
+        function deleteTask(index) {
+            if (confirm("Bạn chắc muốn xoá công việc này không?")) {
+                todoList.splice(index, 1);
+                localStorage.setItem(`listK24`, JSON.stringify(todoList));
+                printlist();
+            }
+
+        }
+
+        printlist();
+
+    </script>
+</body>
+
+</html>
