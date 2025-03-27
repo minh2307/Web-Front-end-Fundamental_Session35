@@ -6,7 +6,7 @@ function renderPageButtons(activePage = 1) {
   let totalPages = Math.ceil(staffs.length / 5);
 
   if (activePage > 1) {
-    pagination.innerHTML += `
+    pagination.innerHTML += ` 
       <button type="button" class="btn btn-outline-primary me-2" onclick="output(${
         activePage - 1
       })">Previous</button>
